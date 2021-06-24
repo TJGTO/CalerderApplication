@@ -1,4 +1,5 @@
 const Class = require('../models').Class;
+const { Op } = require("sequelize");
 const lodash = require('lodash');
 
 module.exports = class RoleReposotory{
@@ -19,20 +20,57 @@ module.exports = class RoleReposotory{
             'Description',
             'teacherName',
             'day',
-            'createdById',
-            'updatedById'
           ]),
         },
     );
    
     return record;
   }
+  
+  async update(data,id){
 
-    async getalldata(){
+    let record = await Class.findByPk(id);
+
+    record = await record.update(
+      {
+        ...lodash.pick(data, [
+          'id',
+          'className',
+          'subjectName',
+          'date',
+          'startTime',
+          'endTime',
+          'teacherId',
+          'Description',
+          'teacherName',
+          'day',
+        ]),
+      },
+    
+    );
+
+    return record;
+  }
+
+
+  async getalldata(){
        
-        const record = await Class.findAll();
+    const record = await Class.findAll();
 
-        return record;
+    return record;
+  }
+    
+    async deletedata(id){
+           
+      console.log(id);
+      const record = await Class.destroy({
+        where: {
+          id: id
+        }
+      });
+
+      return record;
+
     }
 
     async getdataforaparticularDay(day,teacherId){
@@ -46,6 +84,21 @@ module.exports = class RoleReposotory{
 
       return record;
   }
+
+  async getdataforaparticularDayforupdate(day,teacherId,Id){
+       
+    const record = await Class.findAll({
+      where: {
+        day: day,
+        teacherid: ""+teacherId,
+        id: {
+           [Op.not]: Id
+        }
+      }
+    });
+
+    return record;
+}
 
     
 };

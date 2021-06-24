@@ -3,6 +3,7 @@ import React, { useRef, useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled,  { keyframes } from 'styled-components';
 import Modal from "./Modal/Modal";
+import UpdateClassModal from "./Modal/UpdateClassModal";
 import axios from 'axios';
 import * as Actions from '../Store/actions';
 
@@ -15,6 +16,8 @@ function Calendar() {
     const dispatch = useDispatch();
     const [days, setdays] = useState(null);
     const [show, setShow] = useState(false);
+    const [dateforupdate, setdateforupdate] = useState(new Date());
+    const [updateshow,setUpdateshow] = useState(false);
     const [classdataforMOdal, setclassdataforMOdal] = useState([]);
     const [weekdays, setweekdays] = useState(["Sun","Mon","Tues","Wed","Thrus","Fri","Sat"]);
     const [glovalweekdayslevel, setglovalweekdayslevel] = useState([]);
@@ -55,7 +58,8 @@ function Calendar() {
                 setdays(daysarray);
             }
             
-            
+            //console.log(daysarray);
+            //setdays(daysarray);
         }else if(filteredviewId==2 && days){
             if(filteredId=="ALL"){
                 setweekdayslevel(glovalweekdayslevel);
@@ -172,15 +176,28 @@ function Calendar() {
         
         console.log(oneclass);
         setShow(true);
+        let date = oneclass.date.toLocaleString().split("T")[0];
+        console.log("date",date);
+        setdateforupdate(date);
         setclassdataforMOdal(oneclass);
+    }
+    function updatetheclass(){
+        setShow(false);
+        setUpdateshow(true);
+    }
+    function closeupdateModal(){
+        setUpdateshow(false);
     }
     return (
         <div style={{marginTop:"20px"}} onClick={closeModal}>
            
-           <Modal show={show} title="hi" datatoshow={classdataforMOdal} onClose={closeModal}>
+           <Modal show={show} title="hi" datatoshow={classdataforMOdal} onClose={closeModal} onUpdate={updatetheclass}>
             <p>Modal</p>
            </Modal>
-           
+           <UpdateClassModal show={updateshow} datatoupdate={classdataforMOdal} date={dateforupdate} title="update a class" onClose={closeupdateModal}/>
+           {/* <Modal show={show} datatoshow={classdataforMOdal} handleClose={closeModal}>
+            <p>Modal</p>
+           </Modal> */}
             {filteredviewId ===1 && days && <CalenderDiv>
                 {days.map((data)=>(
                     <Day key={data.dayno}>
@@ -201,7 +218,6 @@ function Calendar() {
                     </Day>
                 ))}
            </CalenderDiv>}
-
            {filteredviewId === 2 && <WeekViewDiv>
                 {weekdayslevel.map((data)=>(
                     
@@ -276,6 +292,14 @@ const Weekdaysone = styled.div`
    text-align: center;
    //border-bottom: 1px solid black;
 `;
+// const Weekdaysoneforday = styled.div`
+//    height : 100vh;
+//    border-left: 1px solid black;
+//    border-top: 1px solid black;
+//    border-right : 1px solid black;
+//    text-align: center;
+//    //border-bottom: 1px solid black;
+// `;
 const Class = styled.div`
     font-size: 1.8vmin;
     background : #a1eafb;
@@ -296,4 +320,8 @@ const ClassofWeek = styled.div`
     margin-left:4%;
     margin-right:4%;
     margin-bottom:2%;
+`;
+
+const Textdiv = styled.div`
+
 `;

@@ -16,9 +16,6 @@ module.exports=function(sequelize, DataTypes){
       type: DataTypes.STRING,  
       field: "last_name"       
     },
-    role: {                
-      type: DataTypes.STRING,  
-      field: "role"       
-    },
+  
   });
 };

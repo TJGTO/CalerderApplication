@@ -42,15 +42,7 @@ module.exports=function(sequelize, DataTypes){
     day :{
         type: DataTypes.STRING,  
         field: "day"
-    },
-    createdById :{
-      type: DataTypes.STRING,  
-      field: "day"
-    },
-    updatedById :{
-    type: DataTypes.STRING,  
-    field: "day"
-   }
+    }
   },
   {
     timestamps: true,

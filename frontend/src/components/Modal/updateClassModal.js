@@ -8,21 +8,24 @@ import * as Actions from '../../Store/actions';
 import "./Modal.css";
 import '../form.css';
 
-const AddnewClassModal = props => {
+const UpdateClassModal = props => {
    const dispatch = useDispatch();
-   const [classname, setClassname]=useState(null);
-   const [subject, setsubject]=useState(null);
-   const [date, setDate]=useState(null);
-   const [starttime, setstarttime]=useState(null);
-   const [endTime, setendTime]=useState(null);
-   const [teacher, setteacher]=useState(1);
-   const [teachername, setteachername]=useState("Sumit Malik");
-   const [description, setdescription]=useState("");
+   console.log(props.datatoupdate);
+   console.log(props.date);
+   const [classname, setClassname]=useState(props.datatoupdate.className);
+   const [subject, setsubject]=useState(props.datatoupdate.subjectName);
+   const [date, setDate]=useState(props.date);
+   const [starttime, setstarttime]=useState(props.datatoupdate.startTime);
+   const [endTime, setendTime]=useState(props.datatoupdate.endTime);
+   const [teacher, setteacher]=useState(props.datatoupdate.teacherId);
+   const [teachername, setteachername]=useState(props.datatoupdate.teacherName);
+   const [description, setdescription]=useState(props.datatoupdate.Description);
+   const [idforupdate, setidforupdate]=useState(null);
    const [required, setrequired]=useState(false);
    const [errorshow,seterrorshow]=useState(false);
    const [errordes,seterrordes]=useState("");
    const [erroroccupied ,seterroroccupied] = useState(false);
-
+   
    const [requireclass, setrequireclass]=useState(false);
    const [requiresub, setrequiresub]=useState(false);
    const [requiredate, setrequiredate]=useState(false);
@@ -34,7 +37,9 @@ const AddnewClassModal = props => {
    const [requiredatemsg, setrequiredatemsg]=useState("");
    const [requiretimemsg, setrequiretimemsg]=useState("");
    const [requiretecmsg, setrequiretecmsg]=useState("");
-    
+   
+  
+
   const closeOnEscapeKeyDown = e => {
     if ((e.charCode || e.keyCode) === 27) {
       props.onClose();
@@ -42,19 +47,34 @@ const AddnewClassModal = props => {
   };
 
   useEffect(() => {
+
+    //setClassname(props.datatoupdate.className);
     document.body.addEventListener("keydown", closeOnEscapeKeyDown);
     return function cleanup() {
       document.body.removeEventListener("keydown", closeOnEscapeKeyDown);
     };
   },[]);
-    
+ 
+  useEffect(()=>{
+    setClassname(props.datatoupdate.className);
+    setsubject(props.datatoupdate.subjectName);
+    setDate(props.date);
+    setstarttime(props.datatoupdate.startTime);
+    setendTime(props.datatoupdate.endTime);
+    setteacher(props.datatoupdate.teacherId);
+    setteachername(props.datatoupdate.teacherName);
+    setdescription(props.datatoupdate.Description);
+    setidforupdate(props.datatoupdate.id);
+
+  },[props.datatoupdate]);
+
  const addnewClass=()=>{
      
     setrequireclass(false);  
     setrequiresub(false);
     setrequiredate(false);
     setrequiretime(false); 
-
+     
     if(!classname){
         //console.log("error");
         setrequireclass(true);
@@ -104,13 +124,17 @@ const AddnewClassModal = props => {
 
         
     }
-
+     
+    console.log(idforupdate);
     postalldata();
  
  }
+ 
  function postalldata(){
   seterroroccupied(false);
-  axios.post('/create-class-data',{ 
+  let id = idforupdate;
+  axios.put('/update-class-data',{ 
+        id,
         classname,
         subject,
         date,
@@ -143,10 +167,12 @@ function getclassData(){
 }
 
  const enterClassname=(event) =>{
-       setClassname(event.target.value);
+     console.log(classname);
+     setClassname(event.target.value);
       
  }
  const enterSubject=(event) =>{
+     
     setsubject(event.target.value);
     
 }
@@ -189,36 +215,34 @@ function closeerrorModal(){
           </div>
           <div className="modal-body">
 
-          {/* <ErrorDialog show={errorshow} title="hi" datatoshow={errordes} onClose={closeerrorModal}/> */}
-           
             <form>
                 <ul className="form-style-1">
                    {erroroccupied && <label><span className="required">This time is already occupied</span></label>}  
                     <li>
                         <label>Class Name<span className="required">*</span></label>
-                        <input type="text" name="field1" className="field-long" onChange={enterClassname} placeholder="First" />
+                        <input type="text" name="field1" className="field-long" onChange={enterClassname} value={classname}  />
                         {requireclass && <label><span className="required">{requireclassmsg}</span></label>}
                     </li>
                     <li>
                         <label>Subject<span className="required">*</span></label>
-                        <input type="text" name="field3" onChange={enterSubject} className="field-long" />
+                        <input type="text" name="field3" onChange={enterSubject} value={subject} className="field-long" />
                         {requiresub && <label><span className="required">{requiresubmsg}</span></label>}
                         
                     </li>
                     <li>
                         <label>Date<span className="required">*</span></label>
-                        <input type="date" name="field3" onChange={chooseDate} min="2021-06-01" max="2021-06-30" className="field-long" />
+                        <input type="date" name="field3" onChange={chooseDate} min="2021-06-01" max="2021-06-30" value={date}  className="field-long" />
                         {requiredate && <label><span className="required">{requiredatemsg}</span></label>}
                         
                     </li>
                     <li>
                         <label>Start & End Time<span className="required">*</span></label>
-                        <input type="time" name="field10" onChange={chooseStartTime} className="field-divided" placeholder="First" style={{marginRight:"5px"}}/>
-                        <input type="time" name="field20" onChange={chooseEndTime} className="field-divided" placeholder="Last" /></li>
+                        <input type="time" name="field10" onChange={chooseStartTime} className="field-divided" value={starttime} placeholder="First" style={{marginRight:"5px"}}/>
+                        <input type="time" name="field20" onChange={chooseEndTime} className="field-divided" value={endTime} placeholder="Last" /></li>
                         {requiretime && <label><span className="required">{requiretimemsg}</span></label>}
                     <li>
                         <label>Teacher <span className="required">*</span></label>
-                        <select name="field4" onChange={chooseDropdown} className="field-select">
+                        <select name="field4" onChange={chooseDropdown} value={teacher} className="field-select">
                         <option value="1">Sumit Malik</option>
                         <option value="2">John Doe</option>
                         <option value="3">David Wang</option>
@@ -229,12 +253,10 @@ function closeerrorModal(){
                     </li>
                     <li>
                         <label>Description</label>
-                        <textarea name="field5" id="field5" onChange={enterDescription} className="field-long field-textarea"></textarea>
+                        <textarea name="field5" id="field5" onChange={enterDescription} value={description} className="field-long field-textarea"></textarea>
                         
                     </li>
-                    {/* <li>
-                        <input type="submit" value="Submit" />
-                    </li> */}
+                    
                 </ul>
             </form>
               
@@ -254,8 +276,8 @@ function closeerrorModal(){
         </div>
       </div>
     </CSSTransition>,
-    document.getElementById("createclassmodal")
+    document.getElementById("updateclassmodal")
   );
 };
 
-export default AddnewClassModal;
+export default UpdateClassModal;

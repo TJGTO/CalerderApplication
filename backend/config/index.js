@@ -4,7 +4,7 @@ const path = require('path');
 
 const app = express();
 
-const port = 3000;
+const port = 80;
 
 const db = require('./models');
 
@@ -20,8 +20,8 @@ app.use(require('./apinew'));
 
 const frontendDir = path.join(
     __dirname,
-    '../../calenderapp/build',
-);
+    '../../Calender/calenderapp/build',
+  );
   
   if (fs.existsSync(frontendDir)) {
     app.use('/', express.static(frontendDir));

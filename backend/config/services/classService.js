@@ -33,6 +33,17 @@ module.exports = class ClassService {
 
         }
     }
+   
+    async deletedata(data){
+        try{
+            const records = await this.repository.deletedata(data.id);
+            console.log("records",records);
+            return records;
+        }catch(err){
+            console.log(err);
+        }
+
+    }
 
     async createdata(reciveddata){
          
@@ -54,20 +65,22 @@ module.exports = class ClassService {
         
          
         try{
-            
+            //console.log(datapresent);
             for(let i = 0 ; i < datapresent.length ;i++){
-                
+                //console.log("In the loop");
                 let starthour = parseInt((datapresent[i].startTime).split(":")[0]);
                 let startminutes = parseInt((datapresent[i].startTime).split(":")[1]);
                 let starttime1 = today.setHours(starthour);
                 let starttime3 = today.setMinutes(startminutes);
-               
+               // console.log("starttime3",(datapresent[i].startTime));
+                //console.log("starttime3",starttime3);
                  
                 let endhour = parseInt((datapresent[i].endTime).split(":")[0]);
                 let endminutes = parseInt((datapresent[i].endTime).split(":")[1]);
                 let endtime1 = today.setHours(endhour);
                 let endtime3 = today.setMinutes(endminutes); 
-                
+                //console.log("endtime3",(datapresent[i].endTime));
+                //console.log("endtime3",endtime3);
                 
                 if(starttime2 >= starttime3 && starttime2 <= endtime3 ){
                     console.log("Conflict");
@@ -91,9 +104,80 @@ module.exports = class ClassService {
             data.Description=reciveddata.description;
             data.teacherName=reciveddata.teachername;
             data.day=new Date(reciveddata.date).getDate();
-            data.createdById = "1";
-            data.updatedById = "1";
             const record = await this.repository.create(data);
+
+            return record;
+
+        }catch(err){
+            
+            console.log(err);
+             
+            let string = "erro occur";
+            return string;
+
+        }
+    }
+
+    async updatedata(reciveddata){
+         
+        let datapresent = await this.repository.getdataforaparticularDayforupdate(new Date(reciveddata.date).getDate(),reciveddata.teacher,reciveddata.id);
+        console.log(datapresent.length);
+
+        let today = new Date();
+        let starthour = parseInt((reciveddata.starttime).split(":")[0]);
+        let startminutes = parseInt((reciveddata.starttime).split(":")[1]);
+        let starttime1 = today.setHours(starthour);
+        let starttime2 = today.setMinutes(startminutes);
+        console.log("starttime2",starttime2);
+        
+        let endhour = parseInt((reciveddata.endTime).split(":")[0]);
+        let endminutes = parseInt((reciveddata.endTime).split(":")[1]);
+        let endtime1 = today.setHours(endhour);
+        let endtime2 = today.setMinutes(endminutes);
+        console.log("endminutes",endtime2);
+        
+         
+        try{
+            //console.log(datapresent);
+            for(let i = 0 ; i < datapresent.length ;i++){
+                //console.log("In the loop");
+                let starthour = parseInt((datapresent[i].startTime).split(":")[0]);
+                let startminutes = parseInt((datapresent[i].startTime).split(":")[1]);
+                let starttime1 = today.setHours(starthour);
+                let starttime3 = today.setMinutes(startminutes);
+               // console.log("starttime3",(datapresent[i].startTime));
+                //console.log("starttime3",starttime3);
+                 
+                let endhour = parseInt((datapresent[i].endTime).split(":")[0]);
+                let endminutes = parseInt((datapresent[i].endTime).split(":")[1]);
+                let endtime1 = today.setHours(endhour);
+                let endtime3 = today.setMinutes(endminutes); 
+                //console.log("endtime3",(datapresent[i].endTime));
+                //console.log("endtime3",endtime3);
+                
+                if(starttime2 >= starttime3 && starttime2 <= endtime3 ){
+                    console.log("Conflict");
+                    return;
+                }
+                if(endtime2 >= starttime3 && endtime2 <= endtime3 ){
+                    console.log("Conflict");
+                    return;
+                    
+                }
+
+            }
+            let data = {};
+            data.id= reciveddata.id;
+            data.className =reciveddata.classname;
+            data.subjectName =reciveddata.subject;
+            data.date =new Date(reciveddata.date);
+            data.startTime=reciveddata.starttime;
+            data.endTime=reciveddata.endTime;
+            data.teacherId=""+reciveddata.teacher;
+            data.Description=reciveddata.description;
+            data.teacherName=reciveddata.teachername;
+            data.day=new Date(reciveddata.date).getDate();
+            const record = await this.repository.update(data,reciveddata.id);
 
             return record;
 
