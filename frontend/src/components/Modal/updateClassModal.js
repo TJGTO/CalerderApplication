@@ -76,7 +76,7 @@ const UpdateClassModal = props => {
     setrequiretime(false); 
      
     if(!classname){
-        //console.log("error");
+        
         setrequireclass(true);
         setrequireclassmsg("Please Enter Class Name");
         return;
@@ -146,7 +146,7 @@ const UpdateClassModal = props => {
   })
   .then(res => {
        
-    //console.log(res);
+    
      props.onClose();
      getclassData();
 

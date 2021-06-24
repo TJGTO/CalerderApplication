@@ -78,7 +78,7 @@ function Header() {
            </div>
            </div>
            </HeaderSection>
-           {/* <AddnewClassModal show={show} handleClose={closeModal}/> */}
+         
            <AddnewClassModal show={show} title="Scheduled a Class" onClose={closeModal}/>
             
         </div>

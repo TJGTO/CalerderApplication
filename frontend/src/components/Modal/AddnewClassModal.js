@@ -56,7 +56,7 @@ const AddnewClassModal = props => {
     setrequiretime(false); 
 
     if(!classname){
-        //console.log("error");
+        
         setrequireclass(true);
         setrequireclassmsg("Please Enter Class Name");
         return;
@@ -122,7 +122,7 @@ const AddnewClassModal = props => {
   })
   .then(res => {
        
-    //console.log(res);
+    
      props.onClose();
      getclassData();
 
@@ -189,7 +189,7 @@ function closeerrorModal(){
           </div>
           <div className="modal-body">
 
-          {/* <ErrorDialog show={errorshow} title="hi" datatoshow={errordes} onClose={closeerrorModal}/> */}
+          
            
             <form>
                 <ul className="form-style-1">
@@ -232,9 +232,7 @@ function closeerrorModal(){
                         <textarea name="field5" id="field5" onChange={enterDescription} className="field-long field-textarea"></textarea>
                         
                     </li>
-                    {/* <li>
-                        <input type="submit" value="Submit" />
-                    </li> */}
+                   
                 </ul>
             </form>
               

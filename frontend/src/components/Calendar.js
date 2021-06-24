@@ -58,8 +58,7 @@ function Calendar() {
                 setdays(daysarray);
             }
             
-            //console.log(daysarray);
-            //setdays(daysarray);
+            
         }else if(filteredviewId==2 && days){
             if(filteredId=="ALL"){
                 setweekdayslevel(glovalweekdayslevel);
@@ -195,9 +194,7 @@ function Calendar() {
             <p>Modal</p>
            </Modal>
            <UpdateClassModal show={updateshow} datatoupdate={classdataforMOdal} date={dateforupdate} title="update a class" onClose={closeupdateModal}/>
-           {/* <Modal show={show} datatoshow={classdataforMOdal} handleClose={closeModal}>
-            <p>Modal</p>
-           </Modal> */}
+           
             {filteredviewId ===1 && days && <CalenderDiv>
                 {days.map((data)=>(
                     <Day key={data.dayno}>
@@ -292,14 +289,7 @@ const Weekdaysone = styled.div`
    text-align: center;
    //border-bottom: 1px solid black;
 `;
-// const Weekdaysoneforday = styled.div`
-//    height : 100vh;
-//    border-left: 1px solid black;
-//    border-top: 1px solid black;
-//    border-right : 1px solid black;
-//    text-align: center;
-//    //border-bottom: 1px solid black;
-// `;
+
 const Class = styled.div`
     font-size: 1.8vmin;
     background : #a1eafb;

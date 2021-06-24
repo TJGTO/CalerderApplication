@@ -65,22 +65,18 @@ module.exports = class ClassService {
         
          
         try{
-            //console.log(datapresent);
+           
             for(let i = 0 ; i < datapresent.length ;i++){
-                //console.log("In the loop");
+               
                 let starthour = parseInt((datapresent[i].startTime).split(":")[0]);
                 let startminutes = parseInt((datapresent[i].startTime).split(":")[1]);
                 let starttime1 = today.setHours(starthour);
                 let starttime3 = today.setMinutes(startminutes);
-               // console.log("starttime3",(datapresent[i].startTime));
-                //console.log("starttime3",starttime3);
                  
                 let endhour = parseInt((datapresent[i].endTime).split(":")[0]);
                 let endminutes = parseInt((datapresent[i].endTime).split(":")[1]);
                 let endtime1 = today.setHours(endhour);
                 let endtime3 = today.setMinutes(endminutes); 
-                //console.log("endtime3",(datapresent[i].endTime));
-                //console.log("endtime3",endtime3);
                 
                 if(starttime2 >= starttime3 && starttime2 <= endtime3 ){
                     console.log("Conflict");
@@ -138,22 +134,18 @@ module.exports = class ClassService {
         
          
         try{
-            //console.log(datapresent);
+            
             for(let i = 0 ; i < datapresent.length ;i++){
-                //console.log("In the loop");
+                
                 let starthour = parseInt((datapresent[i].startTime).split(":")[0]);
                 let startminutes = parseInt((datapresent[i].startTime).split(":")[1]);
                 let starttime1 = today.setHours(starthour);
                 let starttime3 = today.setMinutes(startminutes);
-               // console.log("starttime3",(datapresent[i].startTime));
-                //console.log("starttime3",starttime3);
-                 
+              
                 let endhour = parseInt((datapresent[i].endTime).split(":")[0]);
                 let endminutes = parseInt((datapresent[i].endTime).split(":")[1]);
                 let endtime1 = today.setHours(endhour);
                 let endtime3 = today.setMinutes(endminutes); 
-                //console.log("endtime3",(datapresent[i].endTime));
-                //console.log("endtime3",endtime3);
                 
                 if(starttime2 >= starttime3 && starttime2 <= endtime3 ){
                     console.log("Conflict");
