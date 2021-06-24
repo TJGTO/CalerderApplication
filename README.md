@@ -6,7 +6,7 @@ Frontend Techonologies : -
 2.  Redux
 3.  Html
 4.  Css
-5.  
+ 
 Backend Technologies:-
 1. Node Js
 2. Express Js
