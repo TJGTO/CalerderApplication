@@ -1,9 +1,6 @@
 # CalerderApplication
 Build for pepcoding webdev hackathon
 
-Site Link : http://18.117.122.137/
-
-
 Frontend Techonologies : -
 1 . React Js
 2.  Redux
