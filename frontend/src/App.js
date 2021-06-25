@@ -1,13 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import Calendar from './components/Calendar';
-import Header from './components/Header';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Combinecompo from './components/Combinecompo';
+import Home from './components/Home';
+
 function App() {
   return (
-    <div style={{marginLeft:"10px",marginRight:"10px"}}>
-      <Header/>
-      <Calendar/>
-    </div>
+    <Router>
+      <Switch>
+        <Route path='/' exact component={Home} />
+        <Route path='/Classroom' component={Combinecompo} />
+      </Switch>
+    </Router>
   );
 }
 
