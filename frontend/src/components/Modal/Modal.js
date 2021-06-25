@@ -57,7 +57,7 @@ const Modal = props => {
           </div>
           <div className="modal-body">
           <div>
-              <p>Subject : {props.datatoshow.subjectName}</p>
+              <p>Batch : {props.datatoshow.batchName}</p>
               <p>Date : {new Date(props.datatoshow.date).toLocaleString().split(',')[0]}</p>
               <p>Timing : {props.datatoshow.startTime} - {props.datatoshow.endTime}</p>
               </div>

@@ -17,6 +17,8 @@ const AddnewClassModal = props => {
    const [endTime, setendTime]=useState(null);
    const [teacher, setteacher]=useState(1);
    const [teachername, setteachername]=useState("Sumit Malik");
+   const [batchid, setbatchid]=useState(1);
+   const [batchname, setbatchname] = useState("Placement prep1");
    const [description, setdescription]=useState("");
    const [required, setrequired]=useState(false);
    const [errorshow,seterrorshow]=useState(false);
@@ -61,11 +63,7 @@ const AddnewClassModal = props => {
         setrequireclassmsg("Please Enter Class Name");
         return;
     }
-    if(!subject){
-        setrequiresub(true);
-        setrequiresubmsg("Please Enter Subject Name");
-        return;
-    }
+    
     if(!date){
         setrequiredate(true);
         setrequiredatemsg("Please Choose Date");
@@ -110,9 +108,11 @@ const AddnewClassModal = props => {
  }
  function postalldata(){
   seterroroccupied(false);
+  console.log("under postalldata");
   axios.post('/create-class-data',{ 
         classname,
-        subject,
+        batchid,
+        batchname,
         date,
         starttime,
         endTime,
@@ -165,6 +165,11 @@ const chooseDropdown=(event) =>{
     console.log(options[selectedIndex].innerHTML);
     setteachername(options[selectedIndex].innerHTML);
 }
+const chooseDropdownofbatch=(event) =>{
+  setbatchid(event.target.value);
+  const {options, selectedIndex} = event.target;
+  setbatchname(options[selectedIndex].innerHTML);
+}
 const chooseStartTime=(event) =>{
     setstarttime(event.target.value);
     console.log(event.target.value);
@@ -195,14 +200,18 @@ function closeerrorModal(){
                 <ul className="form-style-1">
                    {erroroccupied && <label><span className="required">This time is already occupied</span></label>}  
                     <li>
-                        <label>Class Name<span className="required">*</span></label>
+                        <label>Subject<span className="required">*</span></label>
                         <input type="text" name="field1" className="field-long" onChange={enterClassname} placeholder="First" />
                         {requireclass && <label><span className="required">{requireclassmsg}</span></label>}
                     </li>
                     <li>
-                        <label>Subject<span className="required">*</span></label>
-                        <input type="text" name="field3" onChange={enterSubject} className="field-long" />
-                        {requiresub && <label><span className="required">{requiresubmsg}</span></label>}
+                        <label>Batch <span className="required">*</span></label>
+                        <select name="field9" onChange={chooseDropdownofbatch} className="field-select">
+                        <option value="1">Placement prep1</option>
+                        <option value="2">Placement prep2</option>
+                        <option value="3">Job Switch1</option>
+                        <option value="4">Job Switch2</option>
+                        </select>
                         
                     </li>
                     <li>

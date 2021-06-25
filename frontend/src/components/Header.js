@@ -11,6 +11,7 @@ function Header() {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [selectedteacherid, setselectedteacherid] = useState(null);
+    const [selectedbatchid, setselectedbatchid] = useState(null);
     const [selectedviewid, setselectedviewid] = useState(1);
 
     function closeModal(){
@@ -23,6 +24,9 @@ function Header() {
         setselectedteacherid(event.target.value);
         
     };
+    const selectbatch = (event) =>{
+        setselectedbatchid(event.target.value);
+    }
     const selectview=(event)=>{
         setselectedviewid(parseInt(event.target.value));
     };
@@ -31,6 +35,14 @@ function Header() {
 
         }else{
             dispatch(Actions.filterbyTeacher(selectedteacherid)); 
+        }
+        
+    };
+    const applybatchfilter=(event)=>{
+        if(selectedbatchid=="select"){
+
+        }else{
+            dispatch(Actions.filterbyBatch(selectedbatchid)); 
         }
         
     };
@@ -61,6 +73,22 @@ function Header() {
 
            </div>
             <button className="button" onClick={applyteacherfilter}>Apply</button>
+           </div>
+
+           <div style={{ display : "flex",flexDirection: "row",marginBottom:"2%"}}>
+
+           <div className="select">
+            <select className="custom-select" style={{width:"200px"}} onChange={selectbatch}>
+                <option value="select">Filter By Batch</option>
+                <option value="1">Placement prep1</option>
+                <option value="2">Placement prep2</option>
+                <option value="3">Job Switch1</option>
+                <option value="4">Job Switch2</option>
+                <option value="ALL">View ALL</option>
+            </select>
+
+           </div>
+            <button className="button" onClick={applybatchfilter}>Apply</button>
            </div>
           
            <div style={{ display : "flex",flexDirection: "row",marginBottom:"2%"}}>

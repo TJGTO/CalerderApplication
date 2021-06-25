@@ -12,6 +12,7 @@ import * as Actions from '../Store/actions';
 function Calendar() {
     const filteredId = useSelector((state)=>state.calenderReducer.filteredTeacherID);
     const filteredviewId = useSelector((state)=>state.calenderReducer.filteredView);
+    const fetchedBatchID = useSelector((state)=>state.calenderReducer.filteredBatchID);
     const fetcheddataofclass = useSelector((state)=>state.calenderReducer.calssData);
     const dispatch = useDispatch();
     const [days, setdays] = useState(null);
@@ -31,6 +32,12 @@ function Calendar() {
         console.log("In useeffect",fetcheddataofclass);
 
     },[fetcheddataofclass])
+
+    useEffect(()=>{
+
+        console.log("In useeffect",fetchedBatchID);
+
+    },[fetchedBatchID])
 
     useEffect(()=>{
         
@@ -171,6 +178,77 @@ function Calendar() {
     function closeModal(){
         setShow(false);
     }
+
+    useEffect(()=>{
+        
+        
+        let daysarray = [];
+        
+        if(filteredviewId==1 && fetcheddataofclass){
+            
+            if(fetchedBatchID=="ALL"){
+                setdays(fetcheddataofclass);
+            }else{
+                for(let i = 0 ; i < fetcheddataofclass.length; i++ ){
+                    let classes = fetcheddataofclass[i].classes;
+                    let arr = [];
+                    if(classes.length>0){
+                        let filteredarray = classes.filter(oneclass => oneclass.batchId == fetchedBatchID);
+                        arr = filteredarray;
+                    }
+                    daysarray.push({
+                        dayno:i+1,
+                        classes : arr
+                    })   
+                }
+                setdays(daysarray);
+            }
+            
+            
+        }else if(filteredviewId==2 && days){
+            if(fetchedBatchID=="ALL"){
+                setweekdayslevel(glovalweekdayslevel);
+            }else{
+                for(let i = 0 ; i < glovalweekdayslevel.length; i++ ){
+                    let classes = glovalweekdayslevel[i].classes;
+                    let level = glovalweekdayslevel[i].level;
+                    let arr = [];
+                    if(classes.length>0){
+                        let filteredarray = classes.filter(oneclass => oneclass.batchId == fetchedBatchID);
+                        arr = filteredarray;
+                    }
+                    daysarray.push({
+                        level: level,
+                        classes : arr
+                    })   
+                }
+                console.log(daysarray);
+                setweekdayslevel(daysarray);
+            }
+            
+        }else if(filteredviewId==3 && days){
+            console.log("globalonedaylevel",globalonedaylevel);
+            if(filteredId=="ALL"){
+                setonedaylevel(globalonedaylevel);
+            }else{
+                let classes = globalonedaylevel[0].classes;
+                let level = globalonedaylevel[0].level;
+                let arr = []; 
+                let onedayarray =[];
+                if(classes.length>0){
+                    let filteredarray = classes.filter(oneclass => oneclass.batchId == fetchedBatchID);
+                    arr = filteredarray;
+                }
+                onedayarray.push({
+                    level: level,
+                    classes : arr
+                })  
+                setonedaylevel(onedayarray); 
+            }
+        }
+        
+    },[fetchedBatchID]);
+
     function openModalwithclassData(oneclass){
         
         console.log(oneclass);

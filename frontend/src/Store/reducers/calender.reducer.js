@@ -4,8 +4,9 @@ import * as Actions from '../actions';
 const initialState = {
 	
     filteredTeacherID : null,
+	filteredBatchID : null,
 	filteredView : 1,
-	calssData : null
+	calssData : null,
 	
 };
 
@@ -28,6 +29,12 @@ const calenderReducer = (state = initialState, action) => {
 			return {
 				...state,
 				filteredTeacherID : action.payload
+			};
+		}
+		case Actions.FILTER_BATCH: {
+			return {
+				...state,
+				filteredBatchID : action.payload
 			};
 		}
 		case Actions.FILTER_VIEW : {

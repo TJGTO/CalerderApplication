@@ -20,6 +20,8 @@ module.exports = class RoleReposotory{
             'Description',
             'teacherName',
             'day',
+            'batchId',
+            'batchName'
           ]),
         },
     );
@@ -44,6 +46,8 @@ module.exports = class RoleReposotory{
           'Description',
           'teacherName',
           'day',
+          'batchId',
+          'batchName'
         ]),
       },
     

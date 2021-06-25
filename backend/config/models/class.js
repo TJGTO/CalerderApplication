@@ -42,7 +42,15 @@ module.exports=function(sequelize, DataTypes){
     day :{
         type: DataTypes.STRING,  
         field: "day"
-    }
+    },
+    batchId :{
+      type: DataTypes.STRING,  
+      field: "batchid"
+    },
+    batchName :{
+      type: DataTypes.STRING,  
+      field: "batchname"
+     }
   },
   {
     timestamps: true,

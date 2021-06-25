@@ -92,7 +92,7 @@ module.exports = class ClassService {
             let data = {};
             data.id= uuid.v4();
             data.className =reciveddata.classname;
-            data.subjectName =reciveddata.subject;
+            data.subjectName = "Default Sub";
             data.date =new Date(reciveddata.date);
             data.startTime=reciveddata.starttime;
             data.endTime=reciveddata.endTime;
@@ -100,6 +100,8 @@ module.exports = class ClassService {
             data.Description=reciveddata.description;
             data.teacherName=reciveddata.teachername;
             data.day=new Date(reciveddata.date).getDate();
+            data.batchId =reciveddata.batchid;
+            data.batchName = reciveddata.batchname;
             const record = await this.repository.create(data);
 
             return record;

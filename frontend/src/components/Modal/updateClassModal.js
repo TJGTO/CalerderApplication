@@ -19,6 +19,8 @@ const UpdateClassModal = props => {
    const [endTime, setendTime]=useState(props.datatoupdate.endTime);
    const [teacher, setteacher]=useState(props.datatoupdate.teacherId);
    const [teachername, setteachername]=useState(props.datatoupdate.teacherName);
+   const [batchid, setbatchid]=useState(props.datatoupdate.batchId);
+   const [batchname, setbatchname] = useState(props.datatoupdate.batchName);
    const [description, setdescription]=useState(props.datatoupdate.Description);
    const [idforupdate, setidforupdate]=useState(null);
    const [required, setrequired]=useState(false);
@@ -65,6 +67,8 @@ const UpdateClassModal = props => {
     setteachername(props.datatoupdate.teacherName);
     setdescription(props.datatoupdate.Description);
     setidforupdate(props.datatoupdate.id);
+    setbatchid(props.datatoupdate.batchId);
+    setbatchname(props.datatoupdate.batchName);
 
   },[props.datatoupdate]);
 
@@ -136,7 +140,8 @@ const UpdateClassModal = props => {
   axios.put('/update-class-data',{ 
         id,
         classname,
-        subject,
+        batchid,
+        batchname,
         date,
         starttime,
         endTime,
@@ -191,6 +196,11 @@ const chooseDropdown=(event) =>{
     console.log(options[selectedIndex].innerHTML);
     setteachername(options[selectedIndex].innerHTML);
 }
+const chooseDropdownofbatch=(event) =>{
+  setbatchid(event.target.value);
+  const {options, selectedIndex} = event.target;
+  setbatchname(options[selectedIndex].innerHTML);
+}
 const chooseStartTime=(event) =>{
     setstarttime(event.target.value);
     console.log(event.target.value);
@@ -224,9 +234,13 @@ function closeerrorModal(){
                         {requireclass && <label><span className="required">{requireclassmsg}</span></label>}
                     </li>
                     <li>
-                        <label>Subject<span className="required">*</span></label>
-                        <input type="text" name="field3" onChange={enterSubject} value={subject} className="field-long" />
-                        {requiresub && <label><span className="required">{requiresubmsg}</span></label>}
+                        <label>Batch <span className="required">*</span></label>
+                        <select name="field9" onChange={chooseDropdownofbatch} value={batchid} className="field-select">
+                        <option value="1">Placement prep1</option>
+                        <option value="2">Placement prep2</option>
+                        <option value="3">Job Switch1</option>
+                        <option value="4">Job Switch2</option>
+                        </select>
                         
                     </li>
                     <li>
