@@ -6,12 +6,20 @@ export const FILTER_TEACHER = 'FILTER_TEACHER';
 export const FILTER_BATCH = 'FILTER_BATCH';
 export const FILTER_VIEW = 'FILTER_VIEW';
 export const GET_CLASS_DATA = 'GET_CLASS_DATA';
+export const SET_DAY_NO = 'SET_DAY_NO';
 
 export function OpenDialog(data) {
     console.log("Under Open Dialog");
 	return {
 		type: OPEN_DIALOG,
         payload : data
+	};
+}
+export function setDayno(day){
+	console.log("reducer",day);
+	return{
+		type: SET_DAY_NO,
+        payload : day
 	};
 }
 export function CloseDialog(){

@@ -3,6 +3,7 @@ import React, { useRef, useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled,  { keyframes } from 'styled-components';
 import Modal from "./Modal/Modal";
+import AddnewClassModal from './Modal/AddnewClassModal';
 import UpdateClassModal from "./Modal/UpdateClassModal";
 import axios from 'axios';
 import * as Actions from '../Store/actions';
@@ -16,7 +17,9 @@ function Calendar() {
     const fetcheddataofclass = useSelector((state)=>state.calenderReducer.calssData);
     const dispatch = useDispatch();
     const [days, setdays] = useState(null);
+    const [dayNo, setdayNo] = useState(1);
     const [show, setShow] = useState(false);
+    const [addmodalshow, setaddmodalshow] = useState(false);
     const [dateforupdate, setdateforupdate] = useState(new Date());
     const [updateshow,setUpdateshow] = useState(false);
     const [classdataforMOdal, setclassdataforMOdal] = useState([]);
@@ -157,7 +160,7 @@ function Calendar() {
 
     useEffect(() => {
          
-        axios.get('/class-data')
+        axios.get('/class-datas')
         .then(res => {
           const persons = res.data;
           console.log("class-data",persons);
@@ -174,10 +177,6 @@ function Calendar() {
           
 
     }, [fetcheddataofclass]);
-
-    function closeModal(){
-        setShow(false);
-    }
 
     useEffect(()=>{
         
@@ -227,7 +226,7 @@ function Calendar() {
             }
             
         }else if(filteredviewId==3 && days){
-            console.log("globalonedaylevel",globalonedaylevel);
+            
             if(filteredId=="ALL"){
                 setonedaylevel(globalonedaylevel);
             }else{
@@ -249,6 +248,12 @@ function Calendar() {
         
     },[fetchedBatchID]);
 
+    function closeModal(){
+        setShow(false);
+    }
+    function closeAddModal(){
+        setaddmodalshow(false);
+    }
     function openModalwithclassData(oneclass){
         
         console.log(oneclass);
@@ -265,17 +270,26 @@ function Calendar() {
     function closeupdateModal(){
         setUpdateshow(false);
     }
+    function openAddMOdal(dayno){
+        
+        
+        dispatch(Actions.setDayno(dayno));
+        setaddmodalshow(true);
+        
+    }
     return (
         <div style={{marginTop:"20px"}} onClick={closeModal}>
            
            <Modal show={show} title="hi" datatoshow={classdataforMOdal} onClose={closeModal} onUpdate={updatetheclass}>
             <p>Modal</p>
            </Modal>
+           <AddnewClassModal show={addmodalshow} title="Scheduled a Class" dayno={dayNo} onClose={closeAddModal}/>
+
            <UpdateClassModal show={updateshow} datatoupdate={classdataforMOdal} date={dateforupdate} title="update a class" onClose={closeupdateModal}/>
            
             {filteredviewId ===1 && days && <CalenderDiv>
                 {days.map((data)=>(
-                    <Day key={data.dayno}>
+                    <Day key={data.dayno} onDoubleClick={e=>{ e.stopPropagation(); openAddMOdal(data.dayno)}}>
                       {data.dayno} 
 
                       {data.classes.map((oneclass)=>(
@@ -293,6 +307,7 @@ function Calendar() {
                     </Day>
                 ))}
            </CalenderDiv>}
+
            {filteredviewId === 2 && <WeekViewDiv>
                 {weekdayslevel.map((data)=>(
                     
@@ -388,8 +403,4 @@ const ClassofWeek = styled.div`
     margin-left:4%;
     margin-right:4%;
     margin-bottom:2%;
-`;
-
-const Textdiv = styled.div`
-
 `;

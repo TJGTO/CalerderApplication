@@ -7,7 +7,7 @@ const initialState = {
 	filteredBatchID : null,
 	filteredView : 1,
 	calssData : null,
-	
+	dayNO : 1
 };
 
 const calenderReducer = (state = initialState, action) => {
@@ -47,6 +47,12 @@ const calenderReducer = (state = initialState, action) => {
 			return {
 				...state,
 				calssData : action.payload
+			}
+		}
+		case Actions.SET_DAY_NO : {
+			return{
+				...state,
+				dayNO :action.payload
 			}
 		}
         default: {

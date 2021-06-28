@@ -36,7 +36,8 @@ const AddnewClassModal = props => {
    const [requiredatemsg, setrequiredatemsg]=useState("");
    const [requiretimemsg, setrequiretimemsg]=useState("");
    const [requiretecmsg, setrequiretecmsg]=useState("");
-    
+   const dayNotoAdd = useSelector((state)=>state.calenderReducer.dayNO);
+
   const closeOnEscapeKeyDown = e => {
     if ((e.charCode || e.keyCode) === 27) {
       props.onClose();
@@ -50,6 +51,14 @@ const AddnewClassModal = props => {
     };
   },[]);
     
+   useEffect(()=>{
+     //console.log("*******************************");
+      //console.log("dayNotoAdd",dayNotoAdd);
+      let date = "2021-06-" + dayNotoAdd;
+      setDate(date);
+
+   },[dayNotoAdd]); 
+
  const addnewClass=()=>{
      
     setrequireclass(false);  
@@ -63,7 +72,7 @@ const AddnewClassModal = props => {
         setrequireclassmsg("Please Enter Class Name");
         return;
     }
-    
+   
     if(!date){
         setrequiredate(true);
         setrequiredatemsg("Please Choose Date");
@@ -109,21 +118,31 @@ const AddnewClassModal = props => {
  function postalldata(){
   seterroroccupied(false);
   console.log("under postalldata");
-  axios.post('/create-class-data',{ 
-        classname,
-        batchid,
-        batchname,
-        date,
-        starttime,
-        endTime,
-        teacher,
-        teachername,
-        description
+  axios.post('/create-class-datas',{ 
+      classname,
+      batchid,
+      batchname,
+      date,
+      starttime,
+      endTime,
+      teacher,
+      teachername,
+      description
   })
   .then(res => {
        
     
      props.onClose();
+     setClassname(null);
+     setsubject(null);
+     setDate(null);
+     setstarttime(null);
+     setendTime(null);
+     setteacher(1);
+     setteachername("Sumit Malik");
+     setbatchid(1);
+     setbatchname("Placement prep1");
+     setdescription("");
      getclassData();
 
   }).catch(err =>{
@@ -135,7 +154,7 @@ const AddnewClassModal = props => {
 
 function getclassData(){
    
-  axios.get('/class-data')
+  axios.get('/class-datas')
   .then(res => {
     dispatch(Actions.getSchedulers(res.data));
   })
@@ -216,7 +235,7 @@ function closeerrorModal(){
                     </li>
                     <li>
                         <label>Date<span className="required">*</span></label>
-                        <input type="date" name="field3" onChange={chooseDate} min="2021-06-01" max="2021-06-30" className="field-long" />
+                        <input type="date" name="field3" onChange={chooseDate} value={date} min="2021-06-01" max="2021-06-30" className="field-long" />
                         {requiredate && <label><span className="required">{requiredatemsg}</span></label>}
                         
                     </li>
